@@ -76,5 +76,12 @@ describe('solvers', function() {
     });
 
   });
+  describe('hell yea ()', function () {
+    it('logs the time for 11 queens', function () {
+      var solutionCount = countNQueensSolutions(11);
+      expect(solutionCount).to.be.equal(2680); 
+    });
+
+  });
 
 });
