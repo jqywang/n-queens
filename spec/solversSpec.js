@@ -76,12 +76,12 @@ describe('solvers', function() {
     });
 
   });
-  describe('hell yea ()', function () {
-    it('logs the time for 14 queens', function () {
-      var solutionCount = countNQueensSolutions(14);
-      expect(solutionCount).to.be.equal(365596); 
-    });
+  // describe('hell yea ()', function () {
+  //   it('logs the time for 14 queens', function () {
+  //     var solutionCount = countNQueensSolutions(14);
+  //     expect(solutionCount).to.be.equal(365596); 
+  //   });
 
-  });
+  // });
 
 });

@@ -102,6 +102,7 @@ window.findNQueensSolution = function(n) {
 window.countNQueensSolutions = function(n) {
   var solutionCount = 0;
   var solution = new Board({'n': n});
+  //print time
   
   var recursiveQueenSolution = function (currentRow, board, occupiedColumns) {
     occupiedColumns = occupiedColumns || [];
@@ -124,7 +125,7 @@ window.countNQueensSolutions = function(n) {
   };
   
   
-  
+  //print time
   
   
   
