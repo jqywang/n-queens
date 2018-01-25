@@ -170,7 +170,7 @@
 
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
-      for (var i = 0; i < (Math.floor(this.rows().length * 1.5)); i++) {
+      for (var i = 0; i < this.rows().length * 2; i++) {
         if (this.hasMinorDiagonalConflictAt(i)) {
           return true;
         }
