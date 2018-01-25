@@ -37,21 +37,21 @@ window.countNRooksSolutions = function(n) {
   // optimizations list: go from has rook conflict to col conflict> full test 112 s
   // keep a storage of what columns rooks are in  
   
-  var recursiveRookCount = function (rookCount, board, noRooks) {
+  var recursiveRookCount = function (currentRow, board, noRooks) {
     noRooks = noRooks || [];
     for (var i = 0; i < n; i++) {
       if (! _.contains(noRooks, i)) {
-        board.rows()[rookCount][i] = 1;
-        rookCount++;
+        board.togglePiece(currentRow, i);
+        currentRow++;
         noRooks.push(i);
-        if (rookCount === n) {
+        if (currentRow === n) {
           solutionCount++;
         } else {
-          recursiveRookCount(rookCount, board, noRooks);
+          recursiveRookCount(currentRow, board, noRooks);
         }
-        rookCount --;
+        currentRow --;
         noRooks.pop();
-        board.rows()[rookCount][i] = 0;
+        board.togglePiece(currentRow, i);
       }
     }
   };
@@ -66,26 +66,26 @@ window.findNQueensSolution = function(n) {
   var solution = new Board({'n': n});
   var solutionMatrix;
   
-  var recursiveQueenSolution = function (queenCount, board, noQueens) {
+  var recursiveQueenSolution = function (currentRow, board, noQueens) {
     if (solutionMatrix !== undefined) { return; }
     noQueens = noQueens || [];
     for (var i = 0; i < n; i++) {
       if (! _.contains(noQueens, i)) {
-        board.rows()[queenCount][i] = 1;
-        queenCount++;
+        board.togglePiece(currentRow, i);
+        currentRow++;
         noQueens.push(i);
         if (!solution.hasAnyMajorDiagonalConflicts() && !solution.hasAnyMinorDiagonalConflicts()) {
-          if (queenCount === n) {
+          if (currentRow === n) {
             solutionMatrix = board.rows();
             return;
           } else {
-            recursiveQueenSolution(queenCount, board, noQueens);
+            recursiveQueenSolution(currentRow, board, noQueens);
           }
         }
         if (solutionMatrix !== undefined) { return; }
-        queenCount --;
+        currentRow --;
         noQueens.pop();
-        board.rows()[queenCount][i] = 0;
+        board.togglePiece(currentRow, i);
       }
     }
   };
@@ -106,23 +106,31 @@ window.countNQueensSolutions = function(n) {
   var recursiveQueenSolution = function (currentRow, board, occupiedColumns) {
     occupiedColumns = occupiedColumns || [];
     for (var i = 0; i < n; i++) {
-      if (! _.contains(occupiedColumns, i)) {
-        board.rows()[currentRow][i] = 1;
+      board.togglePiece(currentRow, i);
+      if (! _.contains(occupiedColumns, i) && board.hasAnyDiagonalConflicts(currentRow, i)) {
         currentRow++;
         occupiedColumns.push(i);
-        if (board.hasAnyDiagonalConflicts(currentRow - 1, i)) {
-          if (currentRow === n) {
-            solutionCount ++;
-          } else {
-            recursiveQueenSolution(currentRow, board, occupiedColumns);
-          }
+        if (currentRow === n) {
+          solutionCount ++;
+          // return;
+        } else {
+          recursiveQueenSolution(currentRow, board, occupiedColumns);
         }
         currentRow --;
         occupiedColumns.pop();
-        board.rows()[currentRow][i] = 0;
       }
+      board.togglePiece(currentRow, i);
     }
   };
+  
+  
+  
+  
+  
+  
+  
+  
+  
   recursiveQueenSolution(0, solution);
   if (n === 0) {
     solutionCount = 1;
