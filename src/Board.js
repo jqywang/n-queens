@@ -49,6 +49,11 @@
         this.hasMinorDiagonalConflictAt(this._getFirstRowColumnIndexForMinorDiagonalOn(rowIndex, colIndex))
       );
     },
+    
+    hasAnyDiagonalConflicts: function(rowIndex, colIndex) {
+      // if it does have diagonal conflicts, it'll return false
+      return (!this.hasMajorDiagonalConflictAt(colIndex - rowIndex) && !this.hasMinorDiagonalConflictAt(colIndex + rowIndex));
+    },
 
     hasAnyQueensConflicts: function() {
       return this.hasAnyRooksConflicts() || this.hasAnyMajorDiagonalConflicts() || this.hasAnyMinorDiagonalConflicts();
