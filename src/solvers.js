@@ -17,6 +17,7 @@
 
 window.findNRooksSolution = function(n) {
   //solution is a matrix where the rook positions are the number 1
+  
   var solutionBoard = new Board({'n': n});
   for (var k = 0; k < n; k++) {
     solutionBoard.rows()[k][k] = 1;
@@ -35,7 +36,7 @@ window.countNRooksSolutions = function(n) {
   //  if it does pass test, call recursive function on next row
   // keep doing it until rooks = n
   // optimizations list: go from has rook conflict to col conflict> full test 112 s
-  // keep a storage of what columns rooks are in  
+  // keep a storage of what columns rooks are in
   
   var recursiveRookCount = function (currentRow, board, noRooks) {
     noRooks = noRooks || [];
@@ -103,10 +104,15 @@ window.countNQueensSolutions = function(n) {
   var solutionCount = 0;
   var solution = new Board({'n': n});
   //print time
-  
+  console.log(Date.now());
   var recursiveQueenSolution = function (currentRow, board, occupiedColumns) {
     occupiedColumns = occupiedColumns || [];
+//    debugger;
     for (var i = 0; i < n; i++) {
+      if (currentRow === 0 && i * 2 === n) {
+        solutionCount = solutionCount * 2;
+        return;
+      }
       board.togglePiece(currentRow, i);
       if (! _.contains(occupiedColumns, i) && board.hasAnyDiagonalConflicts(currentRow, i)) {
         currentRow++;
@@ -119,7 +125,8 @@ window.countNQueensSolutions = function(n) {
         }
         currentRow --;
         occupiedColumns.pop();
-      }
+      } 
+      
       board.togglePiece(currentRow, i);
     }
   };
@@ -137,6 +144,7 @@ window.countNQueensSolutions = function(n) {
     solutionCount = 1;
   }
   console.log('Number of solutions for ' + n + ' queens:', solutionCount);
+  console.log(Date.now());
   return solutionCount;
 };
 
